@@ -1,8 +1,10 @@
 from win32api import GetCursorPos, SetCursorPos
-from time import sleep
+from time import sleep, perf_counter
 from sys import argv
 
-delay = 1/100
+loop_hz = 60
+
+loop_delay = 1/loop_hz
 
 # try to use two arguments as acceleration multiplier and friction floats
 # if not, try to use "velocity cursor config.txt" file
@@ -70,5 +72,5 @@ while True:
 
         # btw I don't know why this code just works for bouncing off the edges of the screen. I coded the velocity sumulation part and it just also worked for bouncing so I didn't change it.
     
-    # I know it's not the best way of making timed loop but i'm too lazy to make it better and it works good enough. If you know how to make it better, please tell me or make a pull request.
-    sleep(delay)
+    # perfect delay for making loop oscillate exactly at loop_hz frequency, no matter how long does it take to execute the code inside the loop
+    sleep(loop_delay - perf_counter() % loop_delay)
